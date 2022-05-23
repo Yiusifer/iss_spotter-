@@ -1,6 +1,7 @@
 //const { fetchMyIP} = require('./iss');
 const { fetchCoordsByIP } = require("./iss");
 const { fetchISSFlyOverTimes } = require("./iss")
+const { nextISSTimesForMyLocation } = require('./iss');
 
 /*fetchMyIP((error, ip) => {
   if (error) {
@@ -30,5 +31,22 @@ fetchISSFlyOverTimes(coordinates,(error, flyOver) => {
   console.log("It worked!", flyOver)
 })
 
+nextISSTimesForMyLocation((error, passTimes) => {
+  if (error) {
+    return console.log("It didn't work!", error);
+  }
+  console.log(passTimes);
+});
 
+const printPassTimes = function(passTimes) {
+  for (const pass of passTimes) {
+    const datetime = new Date(0);
+
+    datetime.setUTCSeconds(pass.risetime);
+
+    const duration = pass.duration;
+    
+    console.log(`Next pass at ${datetime} for ${duration} seconds!`);
+  }
+};
 
